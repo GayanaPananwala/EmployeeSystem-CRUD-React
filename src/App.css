@@ -1,0 +1,43 @@
+
+body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+  }
+
+  .container {
+    padding: 30px;
+  }
+
+  .inputText {
+    height: 25px;
+    width: 150px;
+    margin: 10px;
+    border: 2px solid #040484;
+  }
+  
+  
+  .heading {
+  
+    text-align: center;
+    
+  
+  }
+
+  .cardHeading {
+    background-color: #f4f4fd;
+  }
+
+
+  .details {
+    padding: 10px;
+    text-transform: capitalize;
+  }
+
+
+  
+
+ 
+ 
+  
