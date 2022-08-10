@@ -1,6 +1,6 @@
 import React from "react";
-import './App.css';
-import { Button,   Grid, TextField } from "@mui/material";
+import './App.scss';
+import {  Grid, TextField } from "@mui/material";
 import axios from "axios";
 import EmployeeCard from "./components/EmployeeCard";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -13,41 +13,107 @@ export default function App() {
   const [country, setCountry] = React.useState("");
   const [position, setPosition] = React.useState("");
   const [wage, setWage] = React.useState(0);
+  const [isOpened, setIsOpened] = React.useState(true);
+  const [error, setError] = React.useState({
+    nameError: false,
+    ageError: false,
+    countryError: false,
+    positionError: false,
+    wageError: false
+  })
+
 
   const [newWage, setNewWage] = React.useState(0);
 
   const [employeeList, setEmployeeList] = React.useState([]);
 
-  
 
-  //making a post request to send details of employees from front end to back end
+
+
   const addEmployee = () => {
+
+  
+    setError(prev => {
+      return{ ...prev, nameError: false,
+        ageError: false,
+        countryError: false,
+        positionError: false,
+        wageError: false}
+    })
+
+    if (name === "") {
+      setError(prev => {
+          return{ ...prev,  nameError: true}
+        })
+    }
+    if(country === "") {
+        setError(prev => {
+            return{ ...prev,  countryError: true}
+          })
+    }
+
+    if(position === "") {
+      setError(prev => {
+          return{ ...prev,  positionError: true}
+        })
+  }
+
+  if(age === 0) {
+    setError(prev => {
+        return{ ...prev,  ageError: true}
+      })
+   
+}
+
+    if(wage === 0) {
+      setError(prev => {
+          return{ ...prev,  wageError: true}
+        })
+      
+    }
+    
+
+
+    if(name && age && country && position && wage ){
+      (alert("Successfully Added!"));
+       //making a post request to send details of employees from front end to back end
     //using axios to send the post request
-    axios.post("http://localhost:3001/create", {
-      name:name,
-      age:age,
-      country: country,
-      position: position,
-      wage:wage,
-    }).then(() => {
-       setEmployeeList([
-        ...employeeList,
-        {
-          name:name,
-          age:age,
-          country: country,
-          position:position,
-          wage:wage,
-        }
-       ]);
-    });
-  };
+   
+      axios.post("http://localhost:3001/create", {
+        name:name,
+        age:age,
+        country: country,
+        position: position,
+        wage:wage,
+      }).then(() => {
+         setEmployeeList([
+          ...employeeList,
+          {
+            name:name,
+            age:age,
+            country: country,
+            position:position,
+            wage:wage,
+          }
+         ]);
+      });
+    }
+    
+
+}
+   
+
+
 
   //Sending the GET request to get data from the API. 
   const getEmployees = () => {
-    axios.get("http://localhost:3001/employees").then((response) => {
+    setIsOpened(prev => !prev)
+    if(isOpened){
+       axios.get("http://localhost:3001/employees").then((response) => {
       setEmployeeList(response.data);
     });
+    }
+   
   };
 
   //Using axios.delete to delete an employee
@@ -87,6 +153,10 @@ export default function App() {
       primary: {
         main: '#000066' 
       }
+    },
+    typography: {
+      fontFamily: "Quicksand"
+      
     }
   })
 
@@ -95,11 +165,8 @@ export default function App() {
         marginBottom:2,
         marginTop: 2,
         display: 'block'
-    },
-    addBtn: {
-      marginRight: 3
+        
     }
-
   }
 
  
@@ -107,29 +174,38 @@ export default function App() {
  
     <ThemeProvider theme={theme}>
     <div className="container">
-      <h2 className="heading">Employee System</h2>
+      <h1 className="heading">Employee System</h1>
       
 
-      <form onSubmit={addEmployee}>
-        <TextField onChange={(e) => setName(e.target.value)} sx={classes.field} label="Name" variant="filled" fullWidth required />
-        <TextField onChange={(e) => setAge(e.target.value)} sx={classes.field} label="Age" type="number" variant="filled" fullWidth required />
-        <TextField onChange={(e) => setCountry(e.target.value)} sx={classes.field} label="Country" variant="filled" fullWidth required/>
-        <TextField onChange={(e) => setPosition(e.target.value)} sx={classes.field} label="Position" variant="filled" fullWidth required/>
-        <TextField onChange={(e) => setWage(e.target.value)} sx={classes.field} label="Wage" variant="filled" type="number" fullWidth required/>
-        <Button sx={classes.addBtn} type="submit" variant="contained">Add Employee</Button>
-        <Button onClick={getEmployees} type="submit" variant="contained">show Employee</Button>
+      <form noValidate>
+        <TextField error={error.nameError} sx={classes.field} onChange={(e) => setName(e.target.value)}  label="Name" variant="outlined" fullWidth required />
+        <TextField error={error.ageError} sx={classes.field} onChange={(e) => setAge(e.target.value)}  label="Age" type="number" variant="outlined" fullWidth required />
+        <TextField error={error.countryError} sx={classes.field} onChange={(e) => setCountry(e.target.value)}  label="Country" variant="outlined" fullWidth required/>
+        <TextField error={error.positionError} sx={classes.field} onChange={(e) => setPosition(e.target.value)}  label="Position" variant="outlined" fullWidth required/>
+        <TextField error={error.wageError} sx={classes.field} onChange={(e) => setWage(e.target.value)} label="Wage" variant="outlined" type="number" fullWidth required/>
       
-       
+        <div className="btn">
+        <button onClick={addEmployee}  type="submit">Add Employee</button>
+        </div>
       </form>
-      <Grid container >
+        
+
+        <div className="btn">
+          <button className="showBtn" onClick={getEmployees} type="submit" >{isOpened ? "Show Employees" : "Hide Employees"}</button>
+        </div>
+      
+      <div className="grid" style= {isOpened ? { display:'none'} : {display: 'block'}}>
+        <Grid container spacing={2} >
       {employeeList.map((emp) => {
         return(
-          <Grid item xs={12} md={6} lg={3} key={emp.empId}>
+          <Grid item xs={12} sm={6} md={3}  key={emp.empId}>
           <EmployeeCard emp={emp} deleteEmployee={deleteEmployee} updateEmployeeWage={updateEmployeeWage}  setNewWage={setNewWage}/> 
           </Grid>
         )
       })}
       </Grid>
+      </div>
+      
     </div>
     </ThemeProvider>
 

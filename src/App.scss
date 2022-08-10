@@ -1,12 +1,18 @@
+$myFont : 'Quicksand', sans-serif;
+$themeColor: #000066;
+$shadowColor: #7567e2;
+$cardBackground: #f4f4fd;
+$lightGrey: #efefef;
+$darkColor: #000000;
+$white: white;
 
 
 body {
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: 'Quicksand', sans-serif;
+    font-family: $myFont;
    
-    
   }
 
   .container {
@@ -17,20 +23,20 @@ body {
     height: 25px;
     width: 150px;
     margin: 10px;
-    border: 2px solid #040484;
+    border: 2px solid $themeColor;
   }
   
   
   .heading {
-    text-shadow: 0 0 7px #7567e2;
-    color: rgb(0, 0, 0);
+    text-shadow: 0 0 7px $shadowColor;
+    color: $darkColor;
     text-align: center;
     
   
   }
 
   .cardHeading {
-    background-color: #f4f4fd;
+    background-color: $cardBackground;
   }
 
 
@@ -43,39 +49,43 @@ body {
     margin: auto;
     width: 50%;
     text-align: center;
+    button {
+        margin: 15px;
+        background-color: $themeColor;
+        color: $white;
+        border: none;
+        width: 160px;
+        height: 60px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: $myFont;
+        font-size: 18px;
+
+        &:hover {
+            background-color: $white;
+            color: $themeColor;
+            border: 2px ridge $lightGrey;
+          }
+      }
    
     
   }
 
-  .btn button {
-    margin: 15px;
-    background-color: #000066;
-    color: white;
-    border: 2px ridge #efefef;
-    width: 160px;
-    height: 60px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: 'Quicksand', sans-serif;
-    font-size: 18px;
-  }
-
   .btn button:hover {
-    background-color: white;
-    color: #000066;
+    background-color: $white;
+    color: $themeColor;
+    border: 2px ridge $lightGrey;
   }
 
   .grid {
-    transition:  opacity 1s ease-out;
+
     margin-top: 20px;
-    background-color: #efefef;
+    background-color: $lightGrey;
     padding: 20px 20px 20px 40px;
     
   }
   
   
-
-
   @media only screen and (max-width: 840px) {
     .btn button{
       width: 100%;
@@ -89,7 +99,6 @@ body {
       margin-left: 20px;
       
     }
-
   }
   
 
@@ -100,7 +109,5 @@ body {
       width: 70%;
       text-align: center;
      
-      
     }
-
   }

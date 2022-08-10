@@ -14,7 +14,7 @@ export default function EmployeeCard(props){
             height:360
         },
         avatar: {
-            backgroundColor: "#040484"
+            backgroundColor: "#000"
         }
 
     
@@ -38,7 +38,7 @@ export default function EmployeeCard(props){
                 } />
             
             <div className="details">
-                <p>Name: {props.emp.empName}</p>
+                <b><p>Name: {props.emp.empName}</p></b>
                 <p>Age: {props.emp.age}</p>
                 <p>Country: {props.emp.country}</p>
                 <p>Position: {props.emp.position}</p>
