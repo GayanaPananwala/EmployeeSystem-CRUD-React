@@ -34,9 +34,8 @@ export default function Home() {
 
 
   const addEmployee = (e) => {
-    e.preventDefault()
+    
 
-  
     setError(prev => {
       return{ ...prev, nameError: false,
         ageError: false,
@@ -100,8 +99,9 @@ export default function Home() {
             wage:wage,
           }
          ]);
-      },
-      history.push('/'));
+      });
+    }else {
+      e.preventDefault()
     }
     
 
@@ -182,7 +182,7 @@ export default function Home() {
       <h1 className="heading">Employee System</h1>
       
 
-      <form noValidate>
+      <form noValidate onSubmit={addEmployee}>
         <TextField error={error.nameError} sx={classes.field} onChange={(e) => setName(e.target.value)}  label="Name" variant="outlined" fullWidth required />
         <TextField error={error.ageError} sx={classes.field} onChange={(e) => setAge(e.target.value)}  label="Age" type="number" variant="outlined" fullWidth required />
         <TextField error={error.countryError} sx={classes.field} onChange={(e) => setCountry(e.target.value)}  label="Country" variant="outlined" fullWidth required/>
@@ -190,7 +190,7 @@ export default function Home() {
         <TextField error={error.wageError} sx={classes.field} onChange={(e) => setWage(e.target.value)} label="Wage" variant="outlined" type="number" fullWidth required/>
       
         <div className="btn">
-        <button onClick={addEmployee}  type="submit">Add Employee</button>
+        <button  type="submit">Add Employee</button>
         </div>
       </form>
         
